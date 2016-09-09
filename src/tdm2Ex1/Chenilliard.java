@@ -23,18 +23,24 @@ public class Chenilliard {
 		{
 			server = new ServerUdp(portServer);
 			client = new ClientUdp("127.0.0.1",port);
-			Thread.sleep(5);
 			if(pos == 1) {
+				int retry=0;
 				cf.setMain();
 				Thread.sleep(1000);
-				client.send("OK");
+				do {
+					++retry;
+				}while(retry<20 && (client.send("OK")==false));
+				cf.setSlave();
 			}
 			
-			for(int i=0; i<30; i++) {
+			for(int i=0; i<10; i++) {
+				int retry=0;
 				while(!server.waitForHand());
 				cf.setMain();
 				Thread.sleep(1000);
-				client.send("OK");
+				do {
+					++retry;
+				}while(retry<20 && (client.send("OK")==false));
 				cf.setSlave();
 			}
 			client.close();
@@ -49,23 +55,23 @@ public class Chenilliard {
 		switch(pos) {
 		case 1:
 			cf = new ColorFrame(50,50);
-			portServer = 2000;
-			port = 2001;
+			portServer = 6000;
+			port = 6001;
 			break;
 		case 2:
 			cf = new ColorFrame(155,50);
-			portServer = 2001;
-			port = 2002;
+			portServer = 6001;
+			port = 6002;
 			break;
 		case 3:
 			cf = new ColorFrame(155,155);
-			portServer = 2002;
-			port = 2003;
+			portServer = 6002;
+			port = 6003;
 			break;
 		case 4:
 			cf = new ColorFrame(50,155);
-			portServer = 2003;
-			port = 2000;
+			portServer = 6003;
+			port = 6000;
 			break;
 		default:
 			System.out.println("Give a position between 1 and 4. Exit");

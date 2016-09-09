@@ -34,6 +34,9 @@ public class ServerUdp {
 		socket.receive(dpR);
 		String message = new String(bufR, dpR.getOffset(), dpR.getLength());
 		if(message.contains("OK")) {
+			byte[] bufE = new String("ACK").getBytes();
+			DatagramPacket dpE = new DatagramPacket(bufE, bufE.length, new InetSocketAddress(dpR.getAddress().getHostName(), dpR.getPort()));
+			socket.send(dpE);
 			return true;
 		}
 		else {

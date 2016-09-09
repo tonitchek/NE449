@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.SocketTimeoutException;
 
 public class ClientUdp {
 
@@ -17,6 +18,7 @@ public class ClientUdp {
 		this.port = port;
 		open();
 	}
+	
 	/**
 	 * Le client cree une socket, envoie un message au serveur
 	 * et attend la reponse 
@@ -29,12 +31,29 @@ public class ClientUdp {
 		socket = new DatagramSocket();
 		// Creation et envoi du message
 		adrDest = new InetSocketAddress(host, port);
+		socket.setSoTimeout(3000);
 	}
 	
-	public void send(String msg) throws IOException {
+	public boolean send(String msg) throws IOException {
 		byte[] bufE = new String(msg).getBytes();
 		DatagramPacket dpE = new DatagramPacket(bufE, bufE.length, adrDest);
 		socket.send(dpE);
+		byte[] bufR = new byte[2048];
+		DatagramPacket dpR = new DatagramPacket(bufR, bufR.length);
+		try {
+			socket.receive(dpR);
+			String message = new String(bufR, dpR.getOffset(), dpR.getLength());
+			if(message.contains("ACK")) {
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		catch(SocketTimeoutException ste) {
+			return false;
+		}
 	}
 	
 	public void close() {
