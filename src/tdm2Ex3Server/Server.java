@@ -10,7 +10,9 @@ public class Server {
 	private int port;
 	DatagramSocket socket;
 	InetSocketAddress adrDest;
-	public int clientIndex;
+	//MODIF YO
+	public String clientIndex;
+	//public int clientIndex;
 	public int clientPort;
 	public boolean lastClient;
 	
@@ -45,7 +47,9 @@ public class Server {
 			if(message.charAt(message.length()-1)=='#') {
 				lastClient=true;
 				try {
-					clientIndex = Integer.parseInt(message.substring(1, portIndex));
+					//MODIF YO
+					clientIndex = message.substring(1, portIndex);
+					//clientIndex = Integer.parseInt(message.substring(1, portIndex));
 					clientPort = Integer.parseInt(message.substring(portIndex+1, message.length()-1));
 				}
 				catch(NumberFormatException nfe) {
@@ -54,7 +58,9 @@ public class Server {
 			}
 			else {
 				try {
-					clientIndex = Integer.parseInt(message.substring(1, portIndex));
+					//MODIF YO
+					clientIndex = message.substring(1, portIndex);
+					//clientIndex = Integer.parseInt(message.substring(1, portIndex));
 					clientPort = Integer.parseInt(message.substring(portIndex+1, message.length()));
 				}
 				catch(NumberFormatException nfe) {
@@ -62,7 +68,9 @@ public class Server {
 				}
 			}
 			byte[] bufE = new String("ACK").getBytes();
-			DatagramPacket dpE = new DatagramPacket(bufE, bufE.length, new InetSocketAddress(dpR.getAddress().getHostName(), dpR.getPort()));
+			//MODIF YO
+			//DatagramPacket dpE = new DatagramPacket(bufE, bufE.length, new InetSocketAddress(dpR.getAddress().getHostName(), dpR.getPort()));
+			DatagramPacket dpE = new DatagramPacket(bufE, bufE.length, new InetSocketAddress(dpR.getAddress().getHostName(), clientPort));
 			socket.send(dpE);
 			return true;
 		}
