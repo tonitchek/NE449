@@ -1,10 +1,5 @@
 #TDM2 Ex3 - Definition
 
-## Main parameters
-Server port listening: 8888
-max client: 32
-client port: 8800+index (0 <= index <= 31)
-
 ##Protocol
 Client request for registration: "R<index>P<port>"
 last client request for registration: "R<index>P<port>#"
@@ -15,6 +10,9 @@ Server instruction to client for red color: "C1"
 Client response to server instruction for color: "ACK"
 
 Server instruction to client for stop: "S"
+
+## Client port
+client port: 8800+index (0 <= index <= max client)
 
 ## Client frame position
 50*index+5
