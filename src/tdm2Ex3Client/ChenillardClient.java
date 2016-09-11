@@ -46,6 +46,9 @@ public class ChenillardClient {
 		}
 
 		//Wait for instructions until the server send the shutdown information
+		//Pour que le programme se mette en attente d'une insctrution du serveur, dans ce programme on à créé la méthode ``waitForServerInstruction()`` qui
+		//se situe dans la class ``listenClient``.
+		//Dans le code ci-dessous, l'éxecution se réalise jusqu'à que le serveur envoie **SHUTDOWN**
 		while(listenClient.Shutdown == false) {
 			if(listenClient.waitForServerInstruction()){
 				if(listenClient.colorInstruction == "RED") {

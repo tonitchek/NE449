@@ -31,6 +31,7 @@ public class ClientListen {
 		socket.bind(new InetSocketAddress(port));
 	}
 
+	// Return true if a good instruction is received
 	public boolean waitForServerInstruction() throws IOException {
 		// Attente du premier message
 		byte[] bufR = new byte[2048];
