@@ -7,11 +7,10 @@ public class ChenillardServer {
 	static int clientNb;
 	static int listeningPort;
 	static Server server;
+	static Client[] clients;
 	
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		int connectionNb = 0;
-		//TODO get args (max client, listening port)
+	public static void main(String[] args) throws IOException, InterruptedException {
+		//get args (max client, listening port)
 		if(args.length != 2) {
 			System.out.println("Usage: <max client connection> <listening port>");
 			System.exit(1);
@@ -21,15 +20,36 @@ public class ChenillardServer {
 			listeningPort = Integer.parseInt(args[1]);
 			System.out.println(clientNb+" "+listeningPort);
 		}
-		//TODO create serverUdp object
+		
+		//create server object
 		server = new Server(listeningPort);
+		//allocate the max client objects
+		clients = new Client[clientNb];
+
 		//waits for client registration request R<index>P<port>
+		int connectionNb = 0;
 		while((connectionNb < clientNb) && (server.lastClient==false)) {
 			if(server.waitForClientConnection()) {
-				System.out.println(server.clientIndex+" "+server.clientPort);
+				System.out.println(connectionNb);
+				System.out.println(server.clientIndex+" "+server.clientHost+" "+server.clientPort);
+				clients[connectionNb]= new Client(server.clientHost,server.clientPort);
+				clients[connectionNb].open();
 				++connectionNb;
 			}
 			System.out.println(connectionNb);
+		}
+		
+		for(int j=0;j<10;j++) {
+			for(int k=0;k<connectionNb;k++) {
+				clients[k].send("RED");
+				Thread.sleep(1000);
+				clients[k].send("GREEN");
+			}
+		}
+		
+		for(int l=0;l<connectionNb;l++) {
+			clients[l].send("SHUTDOWN");
+			clients[l].close();
 		}
 		
 		server.close();
