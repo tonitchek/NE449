@@ -36,4 +36,8 @@ frame.dispose();
 }
 ```
 
-## Exercice2
+## Exercice2 - Chenillard UDP
+
+Voir code..
+
+## Exercice3 - Chenillard UDP avec un serveur
