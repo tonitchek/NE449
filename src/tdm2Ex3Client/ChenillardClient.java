@@ -7,62 +7,62 @@ public class ChenillardClient {
 	static ColorFrame cf;
 	static ClientSend client;
 	static ClientListen listenClient;
-	static String indexS;
-	static int indexI;
+	static int index;
 	static int last;
-	static int portIn;
-	static int portOut;
-	// Hostname and port of the main server, need to be define by args?
-	static String serverHostname="127.0.0.1";
-	static int serverPort=8888;
+	static int listenPort;
+	static String serverHostname;
+	static int serverPort;
 	static boolean connected;
-	
-	public static void main(String[] args) throws IOException, InterruptedException {
-		
-		
-		//get args, get index of the client, use indexI as integer to calculate frame and ports.
-		indexS = (args[0]);
-		indexI = Character.getNumericValue(indexS.charAt(0)) ; 
 
-		//set client Frame and ports, depending on the indexI
-		cf = new ColorFrame(indexI*200+5,200,indexI);
-		portIn = Integer.parseInt("800"+indexI);
-		portOut = Integer.parseInt("900"+indexI);		
-		
-		listenClient = new ClientListen(portIn);
+	public static void main(String[] args) throws IOException, InterruptedException {
+
+		//Get args, get index of the client, use indexI as integer to calculate frame and ports.
+		index = Integer.parseInt(args[0]);
+		serverHostname = args[1];
+		serverPort = Integer.parseInt(args[2]);
+		listenPort =  Integer.parseInt(args[3]);
+		last  =  Integer.parseInt(args[4]); 
+
+		//Set client Frame and ports, depending on the indexI, port need to be define on 3 first port number, ex 800 for 8001
+		cf = new ColorFrame(index*200+5,200,index);
+		listenPort = Integer.parseInt(listenPort+""+index);
+
+		//Startup client & server
+		listenClient = new ClientListen(listenPort);
 		client = new ClientSend(serverHostname,serverPort);
-		
+
 		//Try connection to server while no response from server
-			// send trame R<index> P<port> while no ACK
+		// send trame R<index>P<port> while no ACK
 		while(listenClient.Connected == false) {
-			client.send("R"+indexS+" P"+portIn);
+			client.send("R"+index+"P"+listenPort);
 			if(listenClient.waitForServerInstruction()) {
 				System.out.println("OK CLIENT ENREGISTRE");
 			}			
 		}
-		
+
 		//Wait for instructions until the server send the shutdown information
 		while(listenClient.Shutdown == false) {
-			if(listenClient.colorInstruction == "RED") {
-				cf.setRed();
-				// Client send ACK? If no ACK server consider him dead?
-				client.send("ACK");
-			}
-			if(listenClient.colorInstruction == "GREEN") {
-				cf.setGreen();
-				// Client send ACK? If no ACK server consider him dead?
-				client.send("ACK");
+			if(listenClient.waitForServerInstruction()){
+				if(listenClient.colorInstruction == "RED") {
+					cf.setRed();
+					// Client send ACK? If no ACK server consider him dead?
+					client.send("ACK");
+				}
+				if(listenClient.colorInstruction == "GREEN") {
+					cf.setGreen();
+					// Client send ACK? If no ACK server consider him dead?
+					client.send("ACK");
+				}
 			}
 		}
-			
-		
+
+
 		//TODO create serverUDP object listening on port arg before	
 		// if instruction action on colorframe or S
 		//TODO while connected==true listen instruction,
-				// if instruction green or red => frame action
-				// if S then kill, connected = false (exit while loop)
+		// if instruction green or red => frame action
+		// if S then kill, connected = false (exit while loop)
 		// TODO close frame	
-		
 	}
 
 }

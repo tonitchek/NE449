@@ -23,7 +23,7 @@ public class ClientListen {
 	public void open() throws IOException
 	{
 		//
-		System.out.println("Demarrage du serveur ...");
+		System.out.println("Demarrage du ClientListen sur le port "+port);
 		
 		// Le serveur se declare aupres de la couche transport
 		// sur le port 3000

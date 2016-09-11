@@ -24,7 +24,7 @@ public class ClientSend {
 	 */
 	public void open() throws IOException
 	{
-		System.out.println("Demarrage du client ...");
+		System.out.println("Demarrage du ClientSend pour envoi des messages ...");
 		//Creation de la socket
 		socket = new DatagramSocket();
 		// Creation et envoi du message
