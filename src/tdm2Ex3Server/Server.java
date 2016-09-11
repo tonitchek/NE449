@@ -13,6 +13,7 @@ public class Server {
 	//MODIF YO
 	public String clientIndex;
 	//public int clientIndex;
+	public String clientHost;
 	public int clientPort;
 	public boolean lastClient;
 	
@@ -50,6 +51,7 @@ public class Server {
 					//MODIF YO
 					clientIndex = message.substring(1, portIndex);
 					//clientIndex = Integer.parseInt(message.substring(1, portIndex));
+					clientHost = dpR.getAddress().getHostName();
 					clientPort = Integer.parseInt(message.substring(portIndex+1, message.length()-1));
 				}
 				catch(NumberFormatException nfe) {
@@ -61,6 +63,7 @@ public class Server {
 					//MODIF YO
 					clientIndex = message.substring(1, portIndex);
 					//clientIndex = Integer.parseInt(message.substring(1, portIndex));
+					clientHost = dpR.getAddress().getHostName();
 					clientPort = Integer.parseInt(message.substring(portIndex+1, message.length()));
 				}
 				catch(NumberFormatException nfe) {
@@ -68,8 +71,6 @@ public class Server {
 				}
 			}
 			byte[] bufE = new String("ACK").getBytes();
-			//MODIF YO
-			//DatagramPacket dpE = new DatagramPacket(bufE, bufE.length, new InetSocketAddress(dpR.getAddress().getHostName(), dpR.getPort()));
 			DatagramPacket dpE = new DatagramPacket(bufE, bufE.length, new InetSocketAddress(dpR.getAddress().getHostName(), clientPort));
 			socket.send(dpE);
 			return true;
