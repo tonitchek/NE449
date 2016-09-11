@@ -34,7 +34,12 @@ public class ChenillardClient {
 		//Try connection to server while no response from server
 		// send trame R<index>P<port> while no ACK
 		while(listenClient.Connected == false) {
-			client.send("R"+index+"P"+listenPort);
+			if(last==1) {
+				client.send("R"+index+"P"+listenPort+"#");
+			}
+			else {
+				client.send("R"+index+"P"+listenPort);
+			}
 			if(listenClient.waitForServerInstruction()) {
 				System.out.println("OK CLIENT ENREGISTRE");
 			}			
