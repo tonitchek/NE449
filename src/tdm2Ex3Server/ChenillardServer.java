@@ -6,18 +6,20 @@ public class ChenillardServer {
 
 	static int clientNb;
 	static int listeningPort;
+	static int delayMs;
 	static Server server;
 	static Client[] clients;
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		//get args (max client, listening port)
-		if(args.length != 2) {
+		if(args.length != 3) {
 			System.out.println("Usage: <max client connection> <listening port>");
 			System.exit(1);
 		}
 		else {
 			clientNb = Integer.parseInt(args[0]);
 			listeningPort = Integer.parseInt(args[1]);
+			delayMs = Integer.parseInt(args[2]);
 			System.out.println(clientNb+" "+listeningPort);
 		}
 		
@@ -42,7 +44,7 @@ public class ChenillardServer {
 		for(int j=0;j<10;j++) {
 			for(int k=0;k<connectionNb;k++) {
 				clients[k].send("RED");
-				Thread.sleep(1000);
+				Thread.sleep(delayMs);
 				clients[k].send("GREEN");
 			}
 		}

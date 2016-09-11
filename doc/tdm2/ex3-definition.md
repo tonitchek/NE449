@@ -5,11 +5,11 @@ Client request for registration: "R\<index\>P\<port\>"
 last client request for registration: "R\<index\>P\<port\>#"  
 Server response to client request for registration: "ACK"  
 
-Server instruction to client for red color: "C0"  
-Server instruction to client for red color: "C1"  
+Server instruction to client for red color: "RED"  
+Server instruction to client for green color: "GREEN"  
 Client response to server instruction for color: "ACK"  
 
-Server instruction to client for stop: "S"  
+Server instruction to client for stop: "SHUTDOWN"  
 
 ## Client port
 client port: 8800+index (0 <= index <= max client)
