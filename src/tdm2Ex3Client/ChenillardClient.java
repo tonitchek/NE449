@@ -60,14 +60,12 @@ public class ChenillardClient {
 				}
 			}
 		}
+		
+		// Close
+		client.close();
+		listenClient.close();
+		cf.close();
 
-
-		//TODO create serverUDP object listening on port arg before	
-		// if instruction action on colorframe or S
-		//TODO while connected==true listen instruction,
-		// if instruction green or red => frame action
-		// if S then kill, connected = false (exit while loop)
-		// TODO close frame	
 	}
 
 }
