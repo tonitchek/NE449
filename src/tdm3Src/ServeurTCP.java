@@ -17,16 +17,16 @@ public class ServeurTCP
 	{
 		ServeurTCP serveurTCP = new ServeurTCP();
 		serveurTCP.execute();
-		
+
 	}
-		
-		
+
+
 
 	private void execute() throws IOException
 	{
 		//
 		System.out.println("Demarrage du serveur ...");
-		
+
 		// Le serveur se declare aupres de la couche transport
 		// sur le port 5099
 		ServerSocket socketEcoute = new ServerSocket();
@@ -34,13 +34,13 @@ public class ServeurTCP
 
 		// Permet de compter le nombre de clients servis
 		int nbClient = 1;
-		
+
 		while(nbClient<4)
 		{
 			// Attente de la connexion d'un client
 			System.out.println("Attente de la connexion du client "+nbClient+"...");
 			Socket socketConnexion = socketEcoute.accept();
-			
+
 			// Un client s'est connecte, le serveur lit le message envoye par le le client (sans garantie de lire tout le message)
 			byte[] bufR = new byte[2048];
 			InputStream is = socketConnexion.getInputStream();
@@ -51,22 +51,22 @@ public class ServeurTCP
 			{
 				break;
 			}
-			
+
 			// Emission d'un message en retour
 			byte[] bufE = new String("ok").getBytes();
 			OutputStream os = socketConnexion.getOutputStream();
 			os.write(bufE);
 			System.out.println("Message envoye = ok");
-			
+
 			// Fermeture de la socket de connexion
 			socketConnexion.close();
-			
+
 			// On incremente le nombre de clients servis
 			nbClient++;
 		}
-		
+
 		socketEcoute.close();
 		System.out.println("Arret du serveur .");
 	}
-		
+
 }
