@@ -23,15 +23,8 @@ public class ClientTCP
 		this.port = port;
 	}
 
-	/**
-	 * Le client cree une socket, envoie un message au serveur
-	 * et attend la reponse 
-	 * @throws IOException 
-	 * 
-	 */
-
-	//TODO open wait 
-	public void open() throws IOException{
+	//open socket and connect to server
+	public void open() throws IOException {
 		//
 		System.out.println("Demarrage du client ...");
 
@@ -43,61 +36,30 @@ public class ClientTCP
 		socket.connect(adrDest);		
 	}
 
+	//send a String on the socket 
 	public void send(String message) throws IOException
 	{
 		// Envoi de la requete
 		byte[] bufE = new String(message).getBytes();
 		OutputStream os = socket.getOutputStream();
 		os.write(bufE);
-		System.out.println("Message envoye");
-
-
 	}
+	
+	//receive String from socket. Blocking method 
 	public String receive() throws IOException {
 		// Attente de la reponse 
 		byte[] bufR = new byte[2048];
 		InputStream is = socket.getInputStream();
 		int lenBufR = is.read(bufR);
 		String reponse = new String(bufR, 0 , lenBufR );
-		System.out.println("Reponse recue = "+reponse);
 		return reponse;
 	}
 
+	//read the code
 	public void close() throws IOException
 	{
 		// Fermeture de la socket
 		socket.close();
 		System.out.println("Arret du client .");
 	}
-
-	/**
-	 * Methode utilitaire permettant de lire au minimum nbByte octets dans le fux is
-	 * 
-	 * A noter : si la methode read retourne plus de caracteres que nbByte, 
-	 * alors les caracteres lus en plus sont ajoutes dans la reponse 
-	 */
-	private StringBuffer readInputStream(int nbByte, InputStream is) throws IOException
-	{
-		StringBuffer buf = new StringBuffer();
-
-		// Nombre de caracteres reellement lus au total
-		int nbByteRead=0;
-
-		int nb;
-		byte[] bufR = new byte[1024];
-
-		while(nbByteRead<nbByte)
-		{
-			nb = is.read(bufR);
-			if (nb==-1)
-			{
-				throw new IOException("Fin du stream atteinte avant d'avoir lu "+nbByte+" octets");
-			}
-			nbByteRead = nbByteRead+nb;
-			buf.append(new String(bufR,0,nb));
-		}
-		return buf;
-
-	}
-
 }
