@@ -1,4 +1,4 @@
-package tdm4ex3TCP;
+package tdm5ex2Yo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ public class ClientTCP
 	InetSocketAddress adrDest;
 
 
-	public ClientTCP(String host, int port){
+	ClientTCP(String host, int port){
 		this.host = host;
 		this.port = port;
 	}
