@@ -267,3 +267,9 @@ Voir ports ouvert sur machine
 ```bash
 netstat
 ```
+
+## Exercice2 - TCP
+
+Traitement de la chaine de caractère en enregistrant l'opérateur et en coupant le string à chaque itération.
+
+attente 300mx côté server
