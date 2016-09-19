@@ -268,15 +268,10 @@ Voir ports ouvert sur machine
 netstat
 ```
 
-## Exercice2 - TCP
-
-Traitement de la chaine de caractère en enregistrant l'opérateur et en coupant le string à chaque itération.
-
-attente 300mx côté server
 
 **CORRECTION**
 
-Correction de l'exercice 2, pseudo code:
+Correction de l'exercice 1 UDP, pseudo code:
 
 ```bash
 Tant que (0==0)
@@ -332,5 +327,29 @@ analyserMessage(msg)
 	}
 	// idem pour obtenir a
 	int a = new Integer(idBuf.toString());
+.
+.
+.
+```
 
+## Exercice2 - TCP
+
+Traitement de la chaine de caractère en enregistrant l'opérateur et en coupant le string à chaque itération.
+
+
+**CORRECTION**
+
+Correction de l'exercice 2 TCP, pseudo code:
+
+```bash
+
+```
+
+Détail de la fonction analyserMessage(msg). On créer un String Buffer pour obtenir les éléments id, a et b:
+
+```java
+
+.
+.
+.
 ```
