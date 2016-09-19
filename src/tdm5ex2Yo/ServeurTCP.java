@@ -40,7 +40,7 @@ public class ServeurTCP
 		}
 
 		// Fermeture de la socket de connexion
-		socketConnexion.close();
+		//socketConnexion.close();
 
 		serveurTCP.close();
 	}
@@ -73,7 +73,7 @@ public class ServeurTCP
 
 	static void send(String message) throws IOException
 	{
-		Socket socketConnexion = socketEcoute.accept();
+		//Socket socketConnexion = socketEcoute.accept();
 		// Emission d'un message en retour
 		byte[] bufE = new String(message).getBytes();
 		OutputStream os = socketConnexion.getOutputStream();

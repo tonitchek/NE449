@@ -273,3 +273,64 @@ netstat
 Traitement de la chaine de caractère en enregistrant l'opérateur et en coupant le string à chaque itération.
 
 attente 300mx côté server
+
+**CORRECTION**
+
+Correction de l'exercice 2, pseudo code:
+
+```bash
+Tant que (0==0)
+	Envoyer Message ("JOUER")
+	Msg = attendre UDP Message()
+	(id,a,b)=analyserMessage()
+	Msg2 = construireReponse(id,a,b)
+	Envoyer UDP Message(Msg2)
+	Msg3=attendreMessage()
+	Afficher msg
+Fin tant que
+```
+
+Détail de la fonction analyserMessage(msg). On créer un String Buffer pour obtenir les éléments id, a et b:
+
+```java
+analyserMessage(msg)
+	Int i=1;
+	String Buffer idBuf = newStringBuffer()
+	Done = false;
+	While(done == false)
+	{
+		Char c = msg.charAt(i);
+		If (c==':')
+		{
+			Done = true;
+		}
+		else
+		{
+			//Ajout du char au prochain index vide du buffer
+			idBuf.append(c);		
+		}
+		i++;
+	}
+
+	int id = new Integer(idBuf.toString());
+	//place le curseur après les ':'
+	i++;
+	Done = false;
+	idBuf = new StringBuffer;
+	While(cone==false)
+	{
+		c = msg.charAt(i);
+		if (c=='+')
+		{
+			done = true;
+		}
+		else
+		{
+			idBuff.append(c);
+		}
+		i++;
+	}
+	// idem pour obtenir a
+	int a = new Integer(idBuf.toString());
+
+```
