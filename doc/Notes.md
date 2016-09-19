@@ -339,17 +339,57 @@ Traitement de la chaine de caractère en enregistrant l'opérateur et en coupant
 
 **CORRECTION**
 
-Correction de l'exercice 2 TCP, pseudo code:
-
-```bash
-
-```
-
-Détail de la fonction analyserMessage(msg). On créer un String Buffer pour obtenir les éléments id, a et b:
-
+JOUEUR TCP
 ```java
+byte[]buf;
+int posBuf 0; //1er caractère valide
+int posBufFillTo = 0; // le dernier caratère valide est à la position posBufFillTo = -1
+InputStream is;
+OutpuStream os;
 
-.
-.
-.
+public void execute()
+{
+	//se connecter au serveur
+	is = socket.getInputStream();
+	os = socket.getOutputStream();
+
+	boolean done =false;
+
+	while(!done)
+	{
+		int a = getOperande1();
+		int b = getOperande2();
+		int c = a + b;
+		os.write (c+";");
+	}
+}
+private int getOperande1()
+{
+	String str = "";
+	boolean done = false;
+	While (!done)
+	{
+		String s = getNext();
+		if (s.aquab("+"))
+		{
+			return new Integer(str);
+		}
+		str = str + s;
+	}
+	return 0;
+}
+
+private String getNext()
+{
+	// Si le buffer est vide
+	int nbCarValide = posBufFillTo->posBuf;
+	if(nbCarValide == 0)
+	{
+		int nbRead = is.read(buf,posBufFillTo,1024-posBufFillTo);
+		posBufFillTo = +nbRead;
+	}
+	byte c = buf[poBuf];
+	posBuf++;
+	return new String(c);
+}
 ```
