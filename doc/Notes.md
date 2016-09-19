@@ -385,11 +385,22 @@ private String getNext()
 	int nbCarValide = posBufFillTo->posBuf;
 	if(nbCarValide == 0)
 	{
+		// remise à 0 du buffer
+		if (posBuf==1024)
+		{
+			posBuf = 0;
+			posBufFillTo = 0;
+		}
 		int nbRead = is.read(buf,posBufFillTo,1024-posBufFillTo);
+		if(nbRead == -1)
+		{
+			// server qui coupe connection
+		}
 		posBufFillTo = +nbRead;
 	}
 	byte c = buf[poBuf];
 	posBuf++;
 	return new String(c);
 }
+
 ```
