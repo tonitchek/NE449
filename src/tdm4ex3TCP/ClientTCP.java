@@ -15,6 +15,8 @@ public class ClientTCP
 	String host;
 	int port;
 	Socket socket;
+	OutputStream os;
+	InputStream is;
 	InetSocketAddress adrDest;
 
 
@@ -30,7 +32,8 @@ public class ClientTCP
 
 		//Creation de la socket
 		socket = new Socket();
-
+		os = socket.getOutputStream();
+		is = socket.getInputStream();
 		// Connexion au serveur 
 		InetSocketAddress adrDest = new InetSocketAddress(host, port);
 		socket.connect(adrDest);		
@@ -41,18 +44,32 @@ public class ClientTCP
 	{
 		// Envoi de la requete
 		byte[] bufE = new String(message).getBytes();
-		OutputStream os = socket.getOutputStream();
 		os.write(bufE);
 	}
-	
+
 	//receive String from socket. Blocking method 
 	public String receive() throws IOException {
 		// Attente de la reponse 
 		byte[] bufR = new byte[2048];
-		InputStream is = socket.getInputStream();
 		int lenBufR = is.read(bufR);
 		String reponse = new String(bufR, 0 , lenBufR );
 		return reponse;
+	}
+
+	//send a String on the socket 
+	public void send(byte[] buf) throws IOException
+	{
+		// Envoi de la requete
+		os.write(buf);
+	}
+
+	//receive String from socket. Blocking method 
+	public byte[] receive(int size) throws IOException {
+		// Attente de la reponse 
+		byte[] bufR = new byte[size];
+		InputStream is = socket.getInputStream();
+		is.read(bufR);
+		return bufR;
 	}
 
 	//read the code
