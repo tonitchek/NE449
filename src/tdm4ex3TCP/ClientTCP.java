@@ -32,11 +32,11 @@ public class ClientTCP
 
 		//Creation de la socket
 		socket = new Socket();
-		os = socket.getOutputStream();
-		is = socket.getInputStream();
 		// Connexion au serveur 
 		InetSocketAddress adrDest = new InetSocketAddress(host, port);
-		socket.connect(adrDest);		
+		socket.connect(adrDest);
+		os = socket.getOutputStream();
+		is = socket.getInputStream();
 	}
 
 	//send a String on the socket 
@@ -56,20 +56,16 @@ public class ClientTCP
 		return reponse;
 	}
 
-	//send a String on the socket 
+	//send byte buffer on the socket 
 	public void send(byte[] buf) throws IOException
 	{
 		// Envoi de la requete
 		os.write(buf);
 	}
 
-	//receive String from socket. Blocking method 
-	public byte[] receive(int size) throws IOException {
-		// Attente de la reponse 
-		byte[] bufR = new byte[size];
-		InputStream is = socket.getInputStream();
-		is.read(bufR);
-		return bufR;
+	//receive byte buffer from socket. Blocking method 
+	public int receive(byte[] buf) throws IOException {
+		return is.read(buf);
 	}
 
 	//read the code

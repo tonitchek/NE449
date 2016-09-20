@@ -56,14 +56,14 @@ public class ClientTCP
 		return reponse;
 	}
 
-	//send a String on the socket 
+	//send byte buffer on the socket 
 	public void send(byte[] buf) throws IOException
 	{
 		// Envoi de la requete
 		os.write(buf);
 	}
 
-	//receive String from socket. Blocking method 
+	//receive byte buffer from socket. Blocking method 
 	public int receive(byte[] buf) throws IOException {
 		return is.read(buf);
 	}
