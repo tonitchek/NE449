@@ -19,20 +19,31 @@ public class TransferFileServer {
 		ServerSocket server = new ServerSocket();
 		server.bind(new InetSocketAddress(port));
 		
-		int nbClient = 1;
+		TransferFile[] tf = new TransferFile[maxNbClient]; 
+		int nbClient = 0;
 		while(nbClient < maxNbClient) {
 			System.out.println("Attente de la connexion du client "+nbClient+"...");
 			Socket socketConnexion = server.accept();
 			byte[] bufR = new byte[512];
 			InputStream is = socketConnexion.getInputStream();
 			int lenBufR = is.read(bufR);
-			String filename = new String(bufR, 0 , lenBufR-1);
-			TransferFile tf = new TransferFile("Cient"+nbClient,socketConnexion,filename);
-			tf.start();
+			String filename = new String(bufR, 0 , lenBufR);
+			tf[nbClient] = new TransferFile("Client"+nbClient,socketConnexion,filename);
+			tf[nbClient].start();
 			++nbClient;
 		}
 		
+		for(int i=0;i<nbClient;i++) {
+			try {
+				tf[i].join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Failed to join "+tf[i].getName());
+			}
+			System.out.println("Thread "+tf[i].getName()+" alive: "+tf[i].isAlive());
+		}
+
 		server.close();
 	}
-
 }
