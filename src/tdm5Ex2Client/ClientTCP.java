@@ -18,7 +18,6 @@ public class ClientTCP
 	OutputStream os;
 	InputStream is;
 	InetSocketAddress adrDest;
-	private int nbBytes;
 
 
 	public ClientTCP(String host, int port){
@@ -65,16 +64,8 @@ public class ClientTCP
 	}
 
 	//receive String from socket. Blocking method 
-	public byte[] receive(int size) throws IOException {
-		// Attente de la reponse 
-		byte[] bufR = new byte[size];
-		InputStream is = socket.getInputStream();
-		nbBytes = is.read(bufR);
-		return bufR;
-	}
-	
-	public int getNbBytes() {
-		return nbBytes;
+	public int receive(byte[] buf) throws IOException {
+		return is.read(buf);
 	}
 
 	//read the code
