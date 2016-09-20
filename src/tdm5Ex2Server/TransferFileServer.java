@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class TransferFileServer {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		//get args
 		if(args.length != 2) {
 			System.out.println("Usage: <listening port> <max client nb>");

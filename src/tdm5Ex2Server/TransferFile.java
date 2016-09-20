@@ -54,9 +54,9 @@ public class TransferFile extends Thread {
 			int bytes=0;
 			try {
 				while((bytes=file.read(buffer)) != -1) {
-					byte[] buf = new byte[bytes];
-					toClient.write(buf);
-					Thread.sleep(500);
+					System.out.println(bytes);
+					toClient.write(buffer,0,bytes);
+					//Thread.sleep(500);
 				}
 				toClient.write(0x4); //EOT byte
 				file.close();
@@ -64,10 +64,11 @@ public class TransferFile extends Thread {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			System.out.println("Thread "+this.getName()+" finished run()");
 		}
 	}
