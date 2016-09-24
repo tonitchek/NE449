@@ -57,9 +57,30 @@ public class TransfertFileClient {
 				System.out.println(filename);
 				//open file to write in
 				FileOutputStream file = new FileOutputStream(filename.toString());
+				//first data are the file size
+				//create a temporary buffer to store file size
+				byte[] tmp = new byte[64];
+				//buffer index
+				int j=0;
+				//while the end of file size specifier is not reached
+				while(buf[j]!=';' && j<bytes) {
+					//store the content of buffer
+					tmp[j] = buf[j];
+					++j;
+				}
+				int fileSize = Integer.parseInt(new String(tmp,0,j));
+				System.out.println("File size: "+fileSize+" Bytes");
+				//if there are other bytes after the file size, that means rest of bytes
+				//are file data sent by server
+				//so write it in the file
+				if(j<bytes) {
+					//increment j because current j value points on ';' character
+					file.write(buf,++j,bytes);
+				}
+				//right now there are only file data
+				bytes = client.receive(buf);
 				//while server sends data (receive method returns -1 if no more data are available)
 				while(bytes != -1) {
-					System.out.println(bytes);
 					//write buffer to file
 					file.write(buf,0,bytes);
 					//get socket data

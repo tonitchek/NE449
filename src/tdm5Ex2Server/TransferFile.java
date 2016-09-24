@@ -73,9 +73,16 @@ public class TransferFile extends Thread {
 			int bytes=0;
 			//try to read buffer from file
 			try {
+				//get file size (bytes available on the stream)
+				int fileSize = file.available();
+				//format the header message containing size to send to client
+				String header = new String();
+				header += fileSize+";";
+				System.out.println(header);
+				//send size to client
+				toClient.write(header.getBytes());
 				//while end of file is not reached
 				while((bytes=file.read(buffer)) != -1) {
-					System.out.println(bytes);
 					//send buffer on socket to client
 					toClient.write(buffer,0,bytes);
 					//Thread.sleep(500);
