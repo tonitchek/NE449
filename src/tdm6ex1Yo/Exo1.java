@@ -1,8 +1,14 @@
 package tdm6ex1Yo;
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.border.BevelBorder;
 
 import tdm.tdm06.airbag.Airbag;
 
@@ -26,8 +32,36 @@ public class Exo1 {
 		timeStart = System.currentTimeMillis();	
 		//Make a first read outside the loop
 		nbRead = ar.readDataOnSDCard(buf, 0, 1024);
+		JFrame frame = new JFrame("Transfer");
+		frame.setSize(500,300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("File transfer progress");
+		frame.setVisible(true);
+
+		JProgressBar bar  = new JProgressBar();
+		bar.setStringPainted(true);
+		bar.setSize(500, 300);
+		bar.setMaximum(50000);
+		bar.setBorder(new BevelBorder(BevelBorder.RAISED));
+		bar.setForeground(Color.getHSBColor(50, 50, 50));
+		
+		JProgressBar bar2  = new JProgressBar();
+		bar2.setStringPainted(true);
+		bar2.setSize(500, 50);
+		bar2.setMaximum(30);
+		bar2.setBorder(null);
+		bar2.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		
+		//bar2.setVisible(true);
+		//bar.setVisible(true);
+		frame.add(bar2);
+		frame.add(bar);
+		
 		do
 		{	
+			
+			bar.setValue(sizeFile);
+
 			//Write nbread to file
 			out.write(buf);
 			//set nbSent to 0 before enter the nbSent loop
@@ -41,6 +75,7 @@ public class Exo1 {
 				Thread.sleep(10);
 				//write nbsend to file
 				out2.write(buf);
+				bar2.setValue(nbSent);
 			}
 
 			//Read next tram
