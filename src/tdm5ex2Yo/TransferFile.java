@@ -1,4 +1,4 @@
-package src.tdm5ex2Yo;
+package tdm5ex2Yo;
 
 
 
