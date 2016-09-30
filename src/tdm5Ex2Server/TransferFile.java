@@ -85,13 +85,16 @@ public class TransferFile extends Thread {
 				while((bytes=file.read(buffer)) != -1) {
 					//send buffer on socket to client
 					toClient.write(buffer,0,bytes);
-					//Thread.sleep(500);
+					Thread.sleep(10);
 				}
 				//end of file has been reached, close file
 				file.close();
 				//close socket
 				client.close();
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

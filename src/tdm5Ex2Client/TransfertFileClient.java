@@ -9,18 +9,20 @@ public class TransfertFileClient {
 
 	static String host;
 	static int port;
+	static int nbClient;
 	static String filePath;
 	
 	public static void main(String[] args) throws IOException {
 		//get args
-		if(args.length != 3) {
-			System.out.println("Usage: <hostname> <port_server> <file_path>");
+		if(args.length != 4) {
+			System.out.println("Usage: <num> <hostname> <port_server> <file_path>");
 			System.exit(1);
 		}
 
-		host = args[0];
-		port = Integer.parseInt(args[1]);
-		filePath = args[2];
+		nbClient = Integer.parseInt(args[0]);
+		host = args[1];
+		port = Integer.parseInt(args[2]);
+		filePath = args[3];
 
 		//create TCP client object
 		ClientTCP client = new ClientTCP(host,port);
@@ -70,6 +72,9 @@ public class TransfertFileClient {
 				}
 				int fileSize = Integer.parseInt(new String(tmp,0,j));
 				System.out.println("File size: "+fileSize+" Bytes");
+				//create progress bar
+				BarProgress bp = new BarProgress(nbClient);
+				int currentSize=0;
 				//if there are other bytes after the file size, that means rest of bytes
 				//are file data sent by server
 				//so write it in the file
@@ -81,6 +86,9 @@ public class TransfertFileClient {
 				bytes = client.receive(buf);
 				//while server sends data (receive method returns -1 if no more data are available)
 				while(bytes != -1) {
+					//update progress bar
+					currentSize+=bytes;
+					bp.updateBar((int)(currentSize/(double)fileSize*100));
 					//write buffer to file
 					file.write(buf,0,bytes);
 					//get socket data
@@ -88,6 +96,8 @@ public class TransfertFileClient {
 				}
 				//close file
 				file.close();
+				//close progress bar
+				bp.close();
 			}
 			catch(FileNotFoundException f) {
 				System.out.println("Failed to open file");
