@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 public class TransferFile extends Thread {
 
 	private Socket client;
-	InputStream fromClient;
 	OutputStream toClient;
 	private FileInputStream file;
 	private boolean canStart;
@@ -22,8 +21,7 @@ public class TransferFile extends Thread {
 		super(name);
 		//get socket connection
 		client = sck;
-		//get In/Out stream
-		fromClient = client.getInputStream();
+		//get Out stream
 		toClient = client.getOutputStream();
 		//try to open requested file
 		try {
@@ -47,8 +45,7 @@ public class TransferFile extends Thread {
 		super();
 		//get socket connection
 		client = sck;
-		//get In/Out stream
-		fromClient = client.getInputStream();
+		//get Out stream
 		toClient = client.getOutputStream();
 		//try to open requested file
 		try {
