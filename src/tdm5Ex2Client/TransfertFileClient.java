@@ -38,6 +38,8 @@ public class TransfertFileClient {
 		//if first char is Cancel char, file does not exist on server
 		if(buf[0] == 0x18) {
 			System.out.println("File doesn't exist on server");
+		} else if(buf[0] == 0x4) {
+			System.out.println("ERR+Serveur indisponible, reessayer ulterieurement");
 		}
 		else {
 			System.out.println("Start transfer");

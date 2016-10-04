@@ -13,6 +13,7 @@ public class TransferFile extends Thread {
 	private FileInputStream file;
 	private boolean canStart;
 	private byte[] buffer;
+	public boolean busy;
 
 	//constructor with thread name
 	TransferFile(String name, Socket sck, String filename) throws IOException {
@@ -36,6 +37,7 @@ public class TransferFile extends Thread {
 		}
 		//allocate socket buffer
 		buffer = new byte[1024];
+		this.busy = true;
 	}
 
 	//Constructor without Thread name
@@ -60,6 +62,7 @@ public class TransferFile extends Thread {
 		}
 		//allocate socket buffer
 		buffer = new byte[1024];
+		this.busy = true;
 	}
 
 	public void run() {
@@ -94,6 +97,7 @@ public class TransferFile extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			this.busy = false;
 			System.out.println("Thread "+this.getName()+" finished run()");
 		}
 	}
